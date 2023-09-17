@@ -1,6 +1,7 @@
 ﻿using CatalogApp.Data;
 using CatalogApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace CatalogApp.Controllers
@@ -16,28 +17,16 @@ namespace CatalogApp.Controllers
 
         public IActionResult Index()
         {
-            // Retrieve the main catalog
-            var mainCatalog = _context.Catalogs.FirstOrDefault(c => c.ParentalDirectoryName == "None");
+            // Retrieve the main catalogs
+            var mainCatalogs = _context.Catalogs.Where(c => c.ParentalDirectoryName == "None").ToList();
 
-            if (mainCatalog == null)
+            if (mainCatalogs == null)
             {
                 // Handle the case where the main catalog is not found.
                 return NotFound();
             }
-
-            // Retrieve sub-catalogs for the main catalog   
-            var subCatalogs = _context.Catalogs.Where(c => c.ParentalDirectoryName == mainCatalog.Name).ToList();
-
-            // Create a list to hold the main catalog and its sub-catalogs
-            List<CatalogModel> mainCatalogWithSubCatalogs = new List<CatalogModel>();
-
-            // Add the main catalog to the list
-            mainCatalogWithSubCatalogs.Add(mainCatalog);
-
-            // Add the sub-catalogs to the list
-            mainCatalogWithSubCatalogs.AddRange(subCatalogs);
-
-            return View(mainCatalogWithSubCatalogs);
+           
+            return View(mainCatalogs);
         }
 
         public IActionResult ViewFolder(string name)
@@ -76,3 +65,28 @@ namespace CatalogApp.Controllers
 
     }
 }
+
+
+
+//// Retrieve the main catalog
+//var mainCatalog = _context.Catalogs.FirstOrDefault(c => c.ParentalDirectoryName == "None");
+
+//if (mainCatalog == null)
+//{
+//    // Handle the case where the main catalog is not found.
+//    return NotFound();
+//}
+
+//// Retrieve sub-catalogs for the main catalog   
+//var subCatalogs = _context.Catalogs.Where(c => c.ParentalDirectoryName == mainCatalog.Name).ToList();
+
+//// Create a list to hold the main catalog and its sub-catalogs
+//List<CatalogModel> mainCatalogWithSubCatalogs = new List<CatalogModel>();
+
+//// Add the main catalog to the list
+//mainCatalogWithSubCatalogs.Add(mainCatalog);
+
+//// Add the sub-catalogs to the list
+//mainCatalogWithSubCatalogs.AddRange(subCatalogs);
+
+//return View(mainCatalogWithSubCatalogs);
