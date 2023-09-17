@@ -1,0 +1,16 @@
+﻿@model List<CatalogModel>
+
+<h1>Folder "@Model[0].Name"</h1>
+
+<ul>
+    @foreach (var catalog in Model)
+    {
+        if (catalog.Name != Model[0].Name)
+        {
+            <li>
+                <a asp-controller="Catalog" asp-action="ViewFolder" asp-route-name="@catalog.Name">@catalog.Name</a>
+            </li>
+        }
+
+    }
+</ul>

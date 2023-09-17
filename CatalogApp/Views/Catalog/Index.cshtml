@@ -1,0 +1,21 @@
+﻿@model List<CatalogModel>
+
+@foreach (var catalog in Model)
+{
+    if (catalog.ParentalDirectoryName == "None")
+    {
+        <h1>Catalogs with Parental Name: @catalog.Name</h1>
+    }
+}
+
+<ul>
+    @foreach (var catalog in Model)
+    {
+        if (catalog.ParentalDirectoryName != "None")
+        {
+            <li>
+                <a asp-controller="Catalog" asp-action="ViewFolder" asp-route-name="@catalog.Name">@catalog.Name</a>
+            </li>
+        }
+    }
+</ul>
