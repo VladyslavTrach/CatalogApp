@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 3,
+    "Name": "Creating Digital Images",
+    "ParentalDirectoryName": "None"
+  },
+  {
+    "Id": 5,
+    "Name": "Resources",
+    "ParentalDirectoryName": "Creating Digital Images"
+  },
+  {
+    "Id": 7,
+    "Name": "Evidence",
+    "ParentalDirectoryName": "Creating Digital Images"
+  },
+  {
+    "Id": 8,
+    "Name": "Graphic Products",
+    "ParentalDirectoryName": "Creating Digital Images"
+  },
+  {
+    "Id": 9,
+    "Name": "Primary Sources",
+    "ParentalDirectoryName": "Resources"
+  },
+  {
+    "Id": 10,
+    "Name": "Secondary Sources",
+    "ParentalDirectoryName": "Resources"
+  },
+  {
+    "Id": 11,
+    "Name": "Process",
+    "ParentalDirectoryName": "Graphic Products"
+  },
+  {
+    "Id": 12,
+    "Name": "Final Product",
+    "ParentalDirectoryName": "Graphic Products"
+  }
+]

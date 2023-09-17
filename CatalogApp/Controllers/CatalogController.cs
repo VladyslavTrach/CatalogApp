@@ -3,6 +3,9 @@ using CatalogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Xml;
+using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace CatalogApp.Controllers
 {
@@ -17,12 +20,10 @@ namespace CatalogApp.Controllers
 
         public IActionResult Index()
         {
-            // Retrieve the main catalogs
             var mainCatalogs = _context.Catalogs.Where(c => c.ParentalDirectoryName == "None").ToList();
 
             if (mainCatalogs == null)
             {
-                // Handle the case where the main catalog is not found.
                 return NotFound();
             }
            
@@ -31,25 +32,19 @@ namespace CatalogApp.Controllers
 
         public IActionResult ViewFolder(string name)
         {
-            // Retrieve the main catalog
             var mainCatalog = _context.Catalogs.FirstOrDefault(c => c.Name == name);
 
             if (mainCatalog == null)
             {
-                // Handle the case where the main catalog is not found.
                 return NotFound();
             }
 
-            // Retrieve sub-catalogs for the main catalog
             var subCatalogs = _context.Catalogs.Where(c => c.ParentalDirectoryName == name).ToList();
 
-            // Create a list to hold the main catalog and its sub-catalogs
             List<CatalogModel> mainCatalogWithSubCatalogs = new List<CatalogModel>();
 
-            // Add the main catalog to the list
             mainCatalogWithSubCatalogs.Add(mainCatalog);
 
-            // Add the sub-catalogs to the list
             mainCatalogWithSubCatalogs.AddRange(subCatalogs);
 
             if(mainCatalogWithSubCatalogs.Count < 2)
@@ -63,30 +58,42 @@ namespace CatalogApp.Controllers
             return View();
         }
 
+        public IActionResult ExportToJson()
+        {
+            var catalogData = _context.Catalogs.ToList();
+
+            var jsonData = JsonConvert.SerializeObject(catalogData, Formatting.Indented);
+
+            System.IO.File.WriteAllText("catalog_data.txt", jsonData);
+
+            return Content("Data exported to catalog_data.txt");
+        }
+
+        public IActionResult ImportFromJson()
+        {
+            var jsonData = System.IO.File.ReadAllText("catalog_data.txt");
+
+            var catalogData = JsonConvert.DeserializeObject<List<CatalogModel>>(jsonData);
+
+            foreach(var catalog in catalogData)
+            {
+                var newCatalog = new CatalogModel
+                {
+                    Name = catalog.Name,
+                    ParentalDirectoryName = catalog.ParentalDirectoryName
+                };
+
+                _context.Catalogs.Add(newCatalog);
+
+            }
+
+            _context.SaveChanges();
+
+
+            return Content("Data imported successfully.");
+        }
+
+
     }
 }
 
-
-
-//// Retrieve the main catalog
-//var mainCatalog = _context.Catalogs.FirstOrDefault(c => c.ParentalDirectoryName == "None");
-
-//if (mainCatalog == null)
-//{
-//    // Handle the case where the main catalog is not found.
-//    return NotFound();
-//}
-
-//// Retrieve sub-catalogs for the main catalog   
-//var subCatalogs = _context.Catalogs.Where(c => c.ParentalDirectoryName == mainCatalog.Name).ToList();
-
-//// Create a list to hold the main catalog and its sub-catalogs
-//List<CatalogModel> mainCatalogWithSubCatalogs = new List<CatalogModel>();
-
-//// Add the main catalog to the list
-//mainCatalogWithSubCatalogs.Add(mainCatalog);
-
-//// Add the sub-catalogs to the list
-//mainCatalogWithSubCatalogs.AddRange(subCatalogs);
-
-//return View(mainCatalogWithSubCatalogs);

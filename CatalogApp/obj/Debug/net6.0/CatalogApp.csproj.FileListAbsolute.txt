@@ -85,3 +85,4 @@ C:\Prog\CatalogApp\CatalogApp\bin\Debug\net6.0\runtimes\browser\lib\net6.0\Syste
 C:\Prog\CatalogApp\CatalogApp\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Prog\CatalogApp\CatalogApp\obj\Debug\net6.0\CatalogApp.csproj.AssemblyReference.cache
 C:\Prog\CatalogApp\CatalogApp\obj\Debug\net6.0\CatalogApp.csproj.CopyComplete
+C:\Prog\CatalogApp\CatalogApp\bin\Debug\net6.0\Newtonsoft.Json.dll
